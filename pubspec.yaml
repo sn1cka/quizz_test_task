@@ -1,4 +1,4 @@
-name: sizzle_starter
+name: quizz_test_task
 description: Production-ready template for Flutter applications.
 # Prevent accidental publishing to pub.dev.
 publish_to: "none"
@@ -7,7 +7,7 @@ version: 0.0.1+1
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
-  flutter: ">=3.24.0 <4.0.0"
+  flutter: ">=3.24.3 <4.0.0"
 
 dependencies:
   # Flutter SDK

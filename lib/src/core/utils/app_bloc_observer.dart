@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizzle_starter/src/core/utils/extensions/string_extension.dart';
-import 'package:sizzle_starter/src/core/utils/refined_logger.dart';
+import 'package:quizz_test_task/src/core/utils/extensions/string_extension.dart';
+import 'package:quizz_test_task/src/core/utils/refined_logger.dart';
 
 /// [BlocObserver] which logs all bloc state changes, errors and events.
 class AppBlocObserver extends BlocObserver {

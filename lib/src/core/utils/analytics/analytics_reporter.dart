@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:sizzle_starter/src/core/utils/analytics/firebase_analytics_reporter.dart';
+import 'package:quizz_test_task/src/core/utils/analytics/firebase_analytics_reporter.dart';
 
 /// {@template analytics_reporter}
 /// Interface for reporting analytics events.

@@ -1,13 +1,13 @@
 import 'package:clock/clock.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sizzle_starter/src/core/constant/config.dart';
-import 'package:sizzle_starter/src/core/utils/error_tracking_manager.dart';
-import 'package:sizzle_starter/src/core/utils/refined_logger.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/dependencies_container.dart';
-import 'package:sizzle_starter/src/feature/settings/bloc/app_settings_bloc.dart';
-import 'package:sizzle_starter/src/feature/settings/data/app_settings_datasource.dart';
-import 'package:sizzle_starter/src/feature/settings/data/app_settings_repository.dart';
+import 'package:quizz_test_task/src/core/constant/config.dart';
+import 'package:quizz_test_task/src/core/utils/error_tracking_manager.dart';
+import 'package:quizz_test_task/src/core/utils/refined_logger.dart';
+import 'package:quizz_test_task/src/feature/initialization/model/dependencies_container.dart';
+import 'package:quizz_test_task/src/feature/settings/bloc/app_settings_bloc.dart';
+import 'package:quizz_test_task/src/feature/settings/data/app_settings_datasource.dart';
+import 'package:quizz_test_task/src/feature/settings/data/app_settings_repository.dart';
 
 /// {@template composition_root}
 /// A place where all dependencies are initialized.

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sizzle_starter/src/feature/settings/data/app_settings_repository.dart';
-import 'package:sizzle_starter/src/feature/settings/model/app_settings.dart';
+import 'package:quizz_test_task/src/feature/settings/data/app_settings_repository.dart';
+import 'package:quizz_test_task/src/feature/settings/model/app_settings.dart';
 
 /// {@template app_settings_bloc}
 /// A [Bloc] that handles [AppSettings].

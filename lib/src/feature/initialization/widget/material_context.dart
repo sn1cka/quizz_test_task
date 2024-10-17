@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sizzle_starter/src/core/constant/localization/localization.dart';
-import 'package:sizzle_starter/src/feature/home/widget/home_screen.dart';
-import 'package:sizzle_starter/src/feature/initialization/model/app_theme.dart';
-import 'package:sizzle_starter/src/feature/settings/widget/settings_scope.dart';
+import 'package:quizz_test_task/src/core/constant/localization/localization.dart';
+import 'package:quizz_test_task/src/feature/home/widget/home_screen.dart';
+import 'package:quizz_test_task/src/feature/initialization/model/app_theme.dart';
+import 'package:quizz_test_task/src/feature/settings/widget/settings_scope.dart';
 
 /// {@template material_context}
 /// [MaterialContext] is an entry point to the material context.

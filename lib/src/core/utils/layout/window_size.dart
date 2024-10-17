@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sizzle_starter/src/core/utils/extensions/context_extension.dart';
+import 'package:quizz_test_task/src/core/utils/extensions/context_extension.dart';
 
 /// A breakpoint that is used to determine the layout of the application.
 ///
