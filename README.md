@@ -17,11 +17,15 @@ For documentation and more details, please visit [sizzle.lazebny.io](https://siz
 
 
 # Core functionalities 
-[GameBloc] in game logic
-[TriviaRepositoryImpl] retrieving and caching categories and questions
-[GameManagerBloc] Management of selected categories 
-[QuizConfig] Cacheble settings for application (amount of questions, difficulty, questiontype)
-[AppDatabase] database for storaging models
+GameBloc in game logic
+
+TriviaRepositoryImpl retrieving and caching categories and questions
+
+GameManagerBloc Management of selected categories 
+
+QuizConfig Cacheble settings for application (amount of questions, difficulty, questiontype)
+
+AppDatabase database for storaging models
 
 
 # Compatability
