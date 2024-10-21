@@ -69,9 +69,11 @@ class CategoryScreen extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.settings),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(
-              builder: (context) => const QuizConfigScreen(),
-            ),),
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => const QuizConfigScreen(),
+              ),
+            ),
           ),
           body: SingleChildScrollView(
             child: Row(
@@ -87,9 +89,9 @@ class CategoryScreen extends StatelessWidget {
                             _refreshCategories(context);
                           },
                         ),
-                      ...state.categories.map(
+                      ...[null, ...state.categories].map(
                         (e) => TextButton(
-                          child: Text(e.name),
+                          child: Text(e?.name ?? 'Any category'),
                           onPressed: () => _selectCategory(context, e),
                         ),
                       ),
