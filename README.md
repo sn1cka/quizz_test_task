@@ -6,15 +6,17 @@ Sizzle is a template for Flutter projects with a focus on simplicity, scalabilit
 
 For documentation and more details, please visit [sizzle.lazebny.io](https://sizzle.lazebny.io).
 
-Steps to run:
 
+# Steps to run
 1. Install FVM 
 2. Activate 3.24.3 flutter version by running 'fvm use 3.24.3'
 3. run 'fvm flutter pub get' 
 4. Generate files using 'fvm flutter run build_runner --delete conflicting outputs'
 5. Run application
 
-Core functionalities:
+
+
+# Core functionalities 
 [GameBloc] in game logic
 [TriviaRepositoryImpl] retrieving and caching categories and questions
 [GameManagerBloc] Management of selected categories 
@@ -22,3 +24,6 @@ Core functionalities:
 [AppDatabase] database for storaging models
 
 
+# Compatability
+
+Application was tested on Iphone 13 Pro Max, Ios Simulator (17.2, Iphone 15 Pro Max) and Anidroid API32 emulator 
