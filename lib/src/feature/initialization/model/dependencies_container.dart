@@ -1,6 +1,8 @@
 import 'package:quizz_test_task/src/core/utils/error_tracking_manager.dart';
+import 'package:quizz_test_task/src/feature/game/bloc/game_bloc.dart';
+import 'package:quizz_test_task/src/feature/game_manager/bloc/game_manager_bloc.dart';
 import 'package:quizz_test_task/src/feature/initialization/logic/composition_root.dart';
-import 'package:quizz_test_task/src/feature/settings/bloc/app_settings_bloc.dart';
+import 'package:quizz_test_task/src/feature/quiz_config/bloc/quiz_config_bloc.dart';
 
 /// {@template dependencies_container}
 /// Composed dependencies from the [CompositionRoot].
@@ -13,15 +15,22 @@ import 'package:quizz_test_task/src/feature/settings/bloc/app_settings_bloc.dart
 base class DependenciesContainer {
   /// {@macro dependencies_container}
   const DependenciesContainer({
-    required this.appSettingsBloc,
+    required this.quizConfigBloc,
     required this.errorTrackingManager,
+    required this.gameManagerBloc,
+    required this.gameBloc,
   });
 
-  /// [AppSettingsBloc] instance, used to manage theme and locale.
-  final AppSettingsBloc appSettingsBloc;
+  /// [QuizConfigBloc] instance, used to manage quiz game configuration
+  final QuizConfigBloc quizConfigBloc;
 
   /// [ErrorTrackingManager] instance, used to report errors.
   final ErrorTrackingManager errorTrackingManager;
+
+  /// [GameBloc] instance, used to manage game.
+  final GameManagerBloc gameManagerBloc;
+
+  final GameBloc gameBloc;
 }
 
 /// {@template testing_dependencies_container}

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizz_test_task/src/core/utils/layout/window_size.dart';
 import 'package:quizz_test_task/src/feature/initialization/logic/composition_root.dart';
 import 'package:quizz_test_task/src/feature/initialization/widget/dependencies_scope.dart';
 import 'package:quizz_test_task/src/feature/initialization/widget/material_context.dart';
-import 'package:quizz_test_task/src/feature/settings/widget/settings_scope.dart';
+import 'package:quizz_test_task/src/feature/quiz_config/widget/quiz_config_scope.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 /// {@template app}
 /// [App] is an entry point to the application.
@@ -26,8 +27,14 @@ class App extends StatelessWidget {
         bundle: SentryAssetBundle(),
         child: DependenciesScope(
           dependencies: result.dependencies,
-          child: const SettingsScope(
-            child: WindowSizeScope(child: MaterialContext()),
+          child: QuizConfigScope(
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: result.dependencies.gameManagerBloc),
+                BlocProvider.value(value: result.dependencies.gameBloc),
+              ],
+              child: const WindowSizeScope(child: MaterialContext()),
+            ),
           ),
         ),
       );

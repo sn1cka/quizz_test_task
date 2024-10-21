@@ -1,0 +1,14 @@
+CREATE TABLE categoriesDto (
+  id INTEGER NOT NULL PRIMARY KEY,
+  name TEXT NOT NULL
+);
+
+CREATE TABLE questionsDto (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  type TEXT NOT NULL,
+  difficulty TEXT NOT NULL,
+  category TEXT NOT NULL REFERENCES categoriesDto (name),
+  question TEXT NOT NULL UNIQUE,
+  correct_answer TEXT NOT NULL,
+  incorrect_answers TEXT NOT NULL
+);

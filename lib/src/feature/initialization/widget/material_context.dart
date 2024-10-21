@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizz_test_task/src/core/constant/localization/localization.dart';
-import 'package:quizz_test_task/src/feature/home/widget/home_screen.dart';
-import 'package:quizz_test_task/src/feature/initialization/model/app_theme.dart';
-import 'package:quizz_test_task/src/feature/settings/widget/settings_scope.dart';
+import 'package:quizz_test_task/src/feature/game_manager/widget/category_screen.dart';
 
 /// {@template material_context}
 /// [MaterialContext] is an entry point to the material context.
@@ -19,22 +17,17 @@ class MaterialContext extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settings = SettingsScope.settingsOf(context);
     final mediaQueryData = MediaQuery.of(context);
 
     return MaterialApp(
-      theme: settings.appTheme?.lightTheme ?? AppTheme.defaultTheme.lightTheme,
-      darkTheme: settings.appTheme?.darkTheme ?? AppTheme.defaultTheme.darkTheme,
-      themeMode: settings.appTheme?.themeMode ?? ThemeMode.system,
-      locale: settings.locale,
       localizationsDelegates: Localization.localizationDelegates,
       supportedLocales: Localization.supportedLocales,
-      home: const HomeScreen(),
+      home: const CategoryScreen(),
       builder: (context, child) => MediaQuery(
         key: _globalKey,
         data: mediaQueryData.copyWith(
           textScaler: TextScaler.linear(
-            mediaQueryData.textScaler.scale(settings.textScale ?? 1).clamp(0.5, 2),
+            mediaQueryData.textScaler.scale(1),
           ),
         ),
         child: child!,

@@ -1,13 +1,20 @@
 import 'package:clock/clock.dart';
-import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' as foundation;
 import 'package:quizz_test_task/src/core/constant/config.dart';
+import 'package:quizz_test_task/src/core/database/database.dart';
 import 'package:quizz_test_task/src/core/utils/error_tracking_manager.dart';
 import 'package:quizz_test_task/src/core/utils/refined_logger.dart';
+import 'package:quizz_test_task/src/feature/game/bloc/game_bloc.dart';
+import 'package:quizz_test_task/src/feature/game_manager/bloc/game_manager_bloc.dart';
 import 'package:quizz_test_task/src/feature/initialization/model/dependencies_container.dart';
-import 'package:quizz_test_task/src/feature/settings/bloc/app_settings_bloc.dart';
-import 'package:quizz_test_task/src/feature/settings/data/app_settings_datasource.dart';
-import 'package:quizz_test_task/src/feature/settings/data/app_settings_repository.dart';
+import 'package:quizz_test_task/src/feature/quiz_config/bloc/quiz_config_bloc.dart';
+import 'package:quizz_test_task/src/feature/quiz_config/data/quiz_config_datasource.dart';
+import 'package:quizz_test_task/src/feature/quiz_config/data/quiz_config_repository.dart';
+import 'package:quizz_test_task/src/feature/trivia/data/trivia_datasource.dart';
+import 'package:quizz_test_task/src/feature/trivia/data/trivia_repository.dart';
+import 'package:quizz_test_task/src/feature/trivia/data/trivia_rest_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// {@template composition_root}
 /// A place where all dependencies are initialized.
@@ -82,12 +89,16 @@ class DependenciesFactory extends AsyncFactory<DependenciesContainer> {
   Future<DependenciesContainer> create() async {
     final sharedPreferences = SharedPreferencesAsync();
 
+    final gameBloc = GameBlocFactory().create();
     final errorTrackingManager = await ErrorTrackingManagerFactory(config, logger).create();
-    final settingsBloc = await SettingsBlocFactory(sharedPreferences).create();
+    final quizConfigBloc = await QuizConfigBlocFactory(sharedPreferences).create();
+    final gameManagerBloc = await GameManagerBlocFactory().create();
 
     return DependenciesContainer(
-      appSettingsBloc: settingsBloc,
+      quizConfigBloc: quizConfigBloc,
       errorTrackingManager: errorTrackingManager,
+      gameManagerBloc: gameManagerBloc,
+      gameBloc: gameBloc,
     );
   }
 }
@@ -113,7 +124,7 @@ class ErrorTrackingManagerFactory extends AsyncFactory<ErrorTrackingManager> {
       environment: config.environment.value,
     );
 
-    if (config.enableSentry && kReleaseMode) {
+    if (config.enableSentry && foundation.kReleaseMode) {
       await errorTrackingManager.enableReporting();
     }
 
@@ -121,29 +132,62 @@ class ErrorTrackingManagerFactory extends AsyncFactory<ErrorTrackingManager> {
   }
 }
 
-/// {@template settings_bloc_factory}
-/// Factory that creates an instance of [AppSettingsBloc].
-/// {@endtemplate}
-class SettingsBlocFactory extends AsyncFactory<AppSettingsBloc> {
-  /// {@macro settings_bloc_factory}
-  SettingsBlocFactory(this.sharedPreferences);
+class QuizConfigBlocFactory extends AsyncFactory<QuizConfigBloc> {
+  /// {@macro quiz_bloc_factory}
+  QuizConfigBlocFactory(this.sharedPreferences);
 
   /// Shared preferences instance
   final SharedPreferencesAsync sharedPreferences;
 
   @override
-  Future<AppSettingsBloc> create() async {
-    final appSettingsRepository = AppSettingsRepositoryImpl(
-      datasource: AppSettingsDatasourceImpl(sharedPreferences: sharedPreferences),
+  Future<QuizConfigBloc> create() async {
+    final quizConfigRepository = QuizConfigRepositoryImpl(
+      datasource: QuizConfigDatasourceImpl(sharedPreferences: sharedPreferences),
     );
 
-    final appSettings = await appSettingsRepository.getAppSettings();
-    final initialState = AppSettingsState.idle(appSettings: appSettings);
+    final quizConfig = await quizConfigRepository.getConfig();
+    final initialState = QuizConfigState.idle(config: quizConfig);
 
-    return AppSettingsBloc(
-      appSettingsRepository: appSettingsRepository,
+    return QuizConfigBloc(
+      quizConfigRepository: quizConfigRepository,
       initialState: initialState,
     );
+  }
+}
+
+class GameBlocFactory extends Factory<GameBloc> {
+  @override
+  GameBloc create() => GameBloc(const GameState(
+        questions: [],
+        currentQuestionIndex: 0,
+        selectedAnswer: null,
+        correctCount: 0,
+        currentVariants: [],
+        isGameEnded: false,
+      ),);
+}
+
+class GameManagerBlocFactory extends AsyncFactory<GameManagerBloc> {
+  @override
+  Future<GameManagerBloc> create() async {
+    final repository = TriviaRepositoryImpl(
+      remoteDataSource: TriviaRemoteDataSource(client: TriviaRestClient(Dio())),
+      persistentDatasource:  TriviaPersistentDatasource(appDataBase: AppDatabase.defaults()),
+    );
+
+    final categoriesFuture = repository.getCategories();
+
+    late final GameManagerState initialState;
+
+    try {
+      final categories = await categoriesFuture;
+      initialState = GameManagerState.idle(categories: categories);
+    } catch (e, stack) {
+      logger.error('Getting categories was issued by: $e', stackTrace: stack);
+      initialState = GameManagerState.error(categories: [], error: e);
+    }
+
+    return GameManagerBloc(repository: repository, initialState: initialState);
   }
 }
 
